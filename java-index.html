@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Unique Comfortable Listing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
   <style>
     body {
       margin: 0;
@@ -96,7 +99,7 @@
   </style>
   <script>
     function copyText(button) {
-      const description = button.parentElement.querySelector('.item-description');
+      const description = button.parentElement.querySelector('.item-description code');
       navigator.clipboard.writeText(description.innerText).then(() => {
         alert('Description copied to clipboard!');
       });
@@ -116,25 +119,25 @@
 </head>
 <body>
   <div class="container">
-    <h1>Liferay Java</h1>
+    <h1>Unique Comfortable Listing</h1>
     <ul class="listing">
       <li class="listing-item">
         <h2 class="item-title"><a href="#">check-loggedin-user-role</a></h2>
-        <p class="item-description">String superAdmin = "superadmin";
-		List<Role> userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
-		boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));</p>
+        <pre class="item-description"><code class="java">String superAdmin = "superadmin";
+List<Role> userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
+boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));</code></pre>
         <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
       <li class="listing-item">
         <h2 class="item-title"><a href="#">Modern Workspace</a></h2>
-        <p class="item-description">A contemporary office space designed for creativity and productivity. Enjoy state-of-the-art facilities and a collaborative environment that inspires innovation.</p>
+        <pre class="item-description"><code class="plaintext">A contemporary office space designed for creativity and productivity. Enjoy state-of-the-art facilities and a collaborative environment that inspires innovation.</code></pre>
         <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
       <li class="listing-item">
         <h2 class="item-title"><a href="#">Sunny Villa</a></h2>
-        <p class="item-description">This charming villa offers a blend of modern comforts with a touch of traditional design. A perfect getaway with lush surroundings and ample space for relaxation.</p>
+        <pre class="item-description"><code class="plaintext">This charming villa offers a blend of modern comforts with a touch of traditional design. A perfect getaway with lush surroundings and ample space for relaxation.</code></pre>
         <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
@@ -142,4 +145,3 @@
   </div>
 </body>
 </html>
-
