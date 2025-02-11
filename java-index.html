@@ -116,11 +116,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>Unique Comfortable Listing</h1>
+    <h1>Liferay Java</h1>
     <ul class="listing">
       <li class="listing-item">
-        <h2 class="item-title"><a href="#">Cozy Apartment</a></h2>
-        <p class="item-description">Experience a comfortable and spacious apartment located in the heart of the city. Modern amenities and a warm, inviting atmosphere make it a perfect choice for long-term stays.</p>
+        <h2 class="item-title"><a href="#">check-loggedin-user-role</a></h2>
+        <p class="item-description">String superAdmin = "superadmin";
+		List<Role> userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
+		boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));</p>
         <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
