@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unique Comfortable Listing</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    
+    .listing {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .listing-item {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .item-title a {
+      font-size: 20px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .item-title a:hover {
+      text-decoration: underline;
+    }
+    
+    .item-description {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #6c757d;
+      margin-top: 8px;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+    }
+    
+    .copy-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    
+    .copy-btn:hover {
+      background: #0056b3;
+    }
+    
+    .input-container {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .input-container input, .input-container textarea {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    .add-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    .add-btn:hover {
+      background: #218838;
+    }
+  </style>
+  <script>
+    function copyText(element) {
+      const text = element.previousElementSibling.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Description copied to clipboard!');
+      });
+    }
+    
+    function addListing() {
+      const title = document.getElementById('title').value;
+      const link = document.getElementById('link').value;
+      const description = document.getElementById('description').value;
+      
+      if (!title || !link || !description) {
+        alert('Please fill all fields');
+        return;
+      }
+      
+      const list = document.querySelector('.listing');
+      const listItem = document.createElement('li');
+      listItem.classList.add('listing-item');
+      
+      listItem.innerHTML = `
+        <h2 class="item-title"><a href="${link}" target="_blank">${title}</a></h2>
+        <p class="item-description">${description}</p>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      `;
+      
+      list.appendChild(listItem);
+      document.getElementById('title').value = '';
+      document.getElementById('link').value = '';
+      document.getElementById('description').value = '';
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Unique Comfortable Listing</h1>
+    <div class="input-container">
+      <input type="text" id="title" placeholder="Enter title">
+      <input type="text" id="link" placeholder="Enter link">
+      <textarea id="description" placeholder="Enter description"></textarea>
+      <button class="add-btn" onclick="addListing()">Add Listing</button>
+    </div>
+    <ul class="listing">
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Cozy Apartment</a></h2>
+        <p class="item-description">Experience a comfortable and spacious apartment located in the heart of the city. Modern amenities and a warm, inviting atmosphere make it a perfect choice for long-term stays.</p>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Modern Workspace</a></h2>
+        <p class="item-description">A contemporary office space designed for creativity and productivity. Enjoy state-of-the-art facilities and a collaborative environment that inspires innovation.</p>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Sunny Villa</a></h2>
+        <p class="item-description">This charming villa offers a blend of modern comforts with a touch of traditional design. A perfect getaway with lush surroundings and ample space for relaxation.</p>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+
