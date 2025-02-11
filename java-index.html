@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unique Comfortable Listing</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    
+    .listing {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .listing-item {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .item-title a {
+      font-size: 20px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .item-title a:hover {
+      text-decoration: underline;
+    }
+    
+    .item-description {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-top: 8px;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+      display: none;
+    }
+    
+    .toggle-btn, .copy-btn {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      border: none;
+      margin-top: 10px;
+    }
+    
+    .toggle-btn {
+      background: #28a745;
+      color: white;
+    }
+    
+    .toggle-btn:hover {
+      background: #218838;
+    }
+    
+    .copy-btn {
+      background: #007bff;
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    
+    .copy-btn:hover {
+      background: #0056b3;
+    }
+  </style>
+  <script>
+    function copyText(button) {
+      const description = button.parentElement.querySelector('.item-description');
+      navigator.clipboard.writeText(description.innerText).then(() => {
+        alert('Description copied to clipboard!');
+      });
+    }
+    
+    function toggleDescription(button) {
+      const description = button.parentElement.querySelector('.item-description');
+      if (description.style.display === 'none' || description.style.display === '') {
+        description.style.display = 'block';
+        button.innerText = 'Hide Description';
+      } else {
+        description.style.display = 'none';
+        button.innerText = 'Show Description';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Unique Comfortable Listing</h1>
+    <ul class="listing">
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Cozy Apartment</a></h2>
+        <p class="item-description">Experience a comfortable and spacious apartment located in the heart of the city. Modern amenities and a warm, inviting atmosphere make it a perfect choice for long-term stays.</p>
+        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Modern Workspace</a></h2>
+        <p class="item-description">A contemporary office space designed for creativity and productivity. Enjoy state-of-the-art facilities and a collaborative environment that inspires innovation.</p>
+        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+      <li class="listing-item">
+        <h2 class="item-title"><a href="#">Sunny Villa</a></h2>
+        <p class="item-description">This charming villa offers a blend of modern comforts with a touch of traditional design. A perfect getaway with lush surroundings and ample space for relaxation.</p>
+        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+        <button class="copy-btn" onclick="copyText(this)">Copy</button>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
 
