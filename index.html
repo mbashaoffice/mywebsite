@@ -3,68 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Sidebar</title>
+    <title>Responsive Grid Links</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            margin: 0;
-        }
-        .sidebar {
-            width: 150px;
-            background-color: #333;
-            color: white;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            position: fixed;
-            display: flex;
-            flex-direction: column;
-            padding-top: 10px;
+            margin: 0;
+            background-color: #f4f4f4;
         }
-        .sidebar a {
-            color: white;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .grid-item {
+            background: white;
+            color: #333;
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
             text-decoration: none;
             font-size: 16px;
-            margin: 10px;
-            padding: 10px;
-            display: block;
-            text-align: left;
-            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            min-height: 50px;
         }
-        .sidebar a:hover {
-            background-color: #575757;
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-color: #007bff;
         }
-        .content {
-            margin-left: 170px;
-            padding: 20px;
-            width: 100%;
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="sidebar">
-        <a href="https://mbashaoffice.github.io/mywebsite/java-index.html" onclick="loadPage(event, 'https://mbashaoffice.github.io/mywebsite/java-index.html')">Page 1</a>
-        <a href="page2.html" onclick="loadPage(event, 'page2.html')">Page 2</a>
-        <a href="page3.html" onclick="loadPage(event, 'page3.html')">Page 3</a>
-        <a href="page4.html" onclick="loadPage(event, 'page4.html')">Page 4</a>
+    <div class="grid-container">
+        <a href="https://example.com/page1" target="_blank" class="grid-item">Liferay java</a>
+        <a href="https://example.com/page2" target="_blank" class="grid-item">Page 2</a>
+        <a href="https://example.com/page3" target="_blank" class="grid-item">Page 3</a>
+        <a href="https://example.com/page4" target="_blank" class="grid-item">Page 4</a>
     </div>
-
-    <div class="content" id="content">
-        <h2>Welcome</h2>
-        <p>Select an option from the menu.</p>
-    </div>
-
-    <script>
-        function loadPage(event, page) {
-            event.preventDefault();
-            fetch(page)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('content').innerHTML = html;
-                })
-                .catch(error => console.error('Error loading page:', error));
-        }
-    </script>
-
 </body>
 </html>
