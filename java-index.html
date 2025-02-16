@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unique Comfortable Listing</title>
+  <title>Liferay java snippet</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
@@ -131,7 +131,34 @@ boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equ
       </li>
       <li class="listing-item">
         <h2 class="item-title"><a href="#">Modern Workspace</a></h2>
-        <pre class="item-description"><code class="plaintext">A contemporary office space designed for creativity and productivity. Enjoy state-of-the-art facilities and a collaborative environment that inspires innovation.</code></pre>
+        <pre class="item-description"><code class="plaintext">public class FileNameExtractor {
+    public static void main(String[] args) {
+        String input = "test1_CAS00000281_2025-02-09132300027.pdf"; // Example input
+        System.out.println("Extracted File Name: " + extractFileName(input));
+    }
+
+    public static String extractFileName(String input) {
+        // Check if input is null or empty
+        if (input == null || input.isEmpty()) {
+            return "Invalid filename";
+        }
+
+        // Find the last dot (.) to get the extension dynamically
+        int lastDotIndex = input.lastIndexOf(".");
+        String extension = (lastDotIndex != -1 && lastDotIndex > 0) ? input.substring(lastDotIndex) : "";
+
+        // Find the first underscore (_)
+        int firstUnderscoreIndex = input.indexOf("_");
+        
+        // Extract everything before the first "_" and add back the extension
+        if (firstUnderscoreIndex != -1) {
+            return input.substring(0, firstUnderscoreIndex) + extension;
+        }
+
+        // If no underscore is found, return the original filename
+        return input;
+    }
+}</code></pre>
         <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
