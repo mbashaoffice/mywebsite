@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Grid Links</title>
+    <title>Responsive Grid Links with Tabs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,21 +13,67 @@
             flex-direction: column;
             align-items: center;
         }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            padding: 20px;
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .tab {
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+        }
+        .tab.active {
+            font-weight: bold;
+        }
+        .tab:nth-child(1) { background: #007bff; }
+        .tab:nth-child(2) { background: #ff5733; }
+        .tab:nth-child(3) { background: #33c3ff; }
+        .tab:nth-child(4) { background: #ff33a8; }
+        .tab:nth-child(5) { background: #33ff57; }
+        .tab:nth-child(6) { background: #ffc733; }
+        .category {
             width: 90%;
             max-width: 800px;
             background: white;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            padding: 10px;
+            display: none;
+            border: 2px solid #007bff;
+        }
+        .category.active {
+            display: block;
+        }
+        .category-title {
+            color: black;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            border: 2px solid #155724;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            padding: 10px;
+            display: none;
+        }
+        .grid-container.active {
+            display: grid;
         }
         .grid-item {
             background: white;
-            color: #333;
+            color: black;
             text-align: center;
             padding: 15px;
             border-radius: 5px;
@@ -45,7 +91,6 @@
         .grid-item:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-color: #007bff;
         }
         @media (max-width: 600px) {
             .grid-container {
@@ -55,22 +100,57 @@
     </style>
 </head>
 <body>
-    <div class="grid-container">
-        <a href="https://mbashaoffice.github.io/mywebsite/java-index.html" target="_blank" class="grid-item">Liferay Java</a>
-        <a href="https://example.com/page2" target="_blank" class="grid-item">Liferay FTL</a>
-        <a href="https://example.com/page3" target="_blank" class="grid-item">Page 3</a>
-        <a href="https://example.com/page4" target="_blank" class="grid-item">Page 4</a>
-        <a href="https://example.com/page5" target="_blank" class="grid-item">Page 5</a>
-        <a href="https://example.com/page6" target="_blank" class="grid-item">Page 6</a>
-        <a href="https://example.com/page7" target="_blank" class="grid-item">Page 7</a>
-        <a href="https://example.com/page8" target="_blank" class="grid-item">Page 8</a>
-        <a href="https://example.com/page9" target="_blank" class="grid-item">Page 9</a>
-        <a href="https://example.com/page10" target="_blank" class="grid-item">Page 10</a>
-        <a href="https://example.com/page11" target="_blank" class="grid-item">Page 11</a>
-        <a href="https://example.com/page12" target="_blank" class="grid-item">Page 12</a>
-        <a href="https://example.com/page13" target="_blank" class="grid-item">Page 13</a>
-        <a href="https://example.com/page14" target="_blank" class="grid-item">Page 14</a>
-        <a href="https://example.com/page15" target="_blank" class="grid-item">Page 15</a>
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('liferay')">Liferay</button>
+        <button class="tab" onclick="showTab('java')">Java</button>
+        <button class="tab" onclick="showTab('javascript')">Javascript</button>
+        <button class="tab" onclick="showTab('tab4')">Tab 4</button>
+        <button class="tab" onclick="showTab('tab5')">Tab 5</button>
+        <button class="tab" onclick="showTab('tab6')">Tab 6</button>
     </div>
+    
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.category').forEach(category => {
+                category.classList.remove('active');
+            });
+            document.querySelectorAll(`.${tabId}`).forEach(category => {
+                category.classList.add('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+        
+        function toggleCategory(gridId) {
+            const grid = document.getElementById(gridId);
+            if (grid) {
+                grid.classList.toggle('active');
+            }
+        }
+    </script>
+    
+    <script>
+        const tabs = ['liferay', 'java', 'javascript', 'tab4', 'tab5', 'tab6'];
+        const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
+        
+        tabs.forEach(tab => {
+            categories.forEach((category, index) => {
+                document.body.innerHTML += `
+                    <div class="category ${tab}">
+                        <div class="category-title" onclick="toggleCategory('${tab}-grid-${index}')" style="background: #${Math.floor(Math.random()*16777215).toString(16)}">${tab} - ${category}</div>
+                        <div id="${tab}-grid-${index}" class="grid-container">
+                            <a href="#" class="grid-item">Item 1</a>
+                            <a href="#" class="grid-item">Item 2</a>
+                            <a href="#" class="grid-item">Item 3</a>
+                            <a href="#" class="grid-item">Item 4</a>
+                            <a href="#" class="grid-item">Item 5</a>
+                        </div>
+                    </div>`;
+            });
+        });
+    </script>
 </body>
 </html>
