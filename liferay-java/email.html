@@ -1,0 +1,4 @@
+
+String superAdmin = "superadmin";
+List userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
+boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));
