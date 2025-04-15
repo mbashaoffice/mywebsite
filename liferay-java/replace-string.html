@@ -1,0 +1,23 @@
+
+public class FileNameExtractor {
+    public static void main(String[] args) {
+        String input = "test1_CAS00000281_2025-02-09132300027.pdf";
+        System.out.println("Extracted File Name: " + extractFileName(input));
+    }
+
+    public static String extractFileName(String input) {
+        if (input == null || input.isEmpty()) {
+            return "Invalid filename";
+        }
+
+        int lastDotIndex = input.lastIndexOf(".");
+        String extension = (lastDotIndex != -1 && lastDotIndex > 0) ? input.substring(lastDotIndex) : "";
+        int firstUnderscoreIndex = input.indexOf("_");
+
+        if (firstUnderscoreIndex != -1) {
+            return input.substring(0, firstUnderscoreIndex) + extension;
+        }
+
+        return input;
+    }
+}
