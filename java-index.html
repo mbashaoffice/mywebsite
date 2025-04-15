@@ -137,50 +137,19 @@
   <div class="container">
     <h1>Liferay Java Snippet</h1>
     <ul class="listing">
-      <li class="listing-item">
+       <!-- NEW ITEM with dynamic fetch -->
+      <li class="listing-item" data-url="liferay-java/check-logged-in-user.html">
         <h2 class="item-title">check-loggedin-user-role</h2>
-        <pre class="item-description"><code class="java">String superAdmin = "superadmin";
-List&lt;Role&gt; userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
-boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -&gt; superAdmin.equals(userRL.getName()));</code></pre>
+        <pre class="item-description"><code class="java"></code></pre>
         <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
-
-      <li class="listing-item">
-        <h2 class="item-title">Replace string from specific character dynamically</h2>
-        <pre class="item-description"><code class="plaintext">public class FileNameExtractor {
-    public static void main(String[] args) {
-        String input = "test1_CAS00000281_2025-02-09132300027.pdf";
-        System.out.println("Extracted File Name: " + extractFileName(input));
-    }
-
-    public static String extractFileName(String input) {
-        if (input == null || input.isEmpty()) {
-            return "Invalid filename";
-        }
-
-        int lastDotIndex = input.lastIndexOf(".");
-        String extension = (lastDotIndex != -1 && lastDotIndex > 0) ? input.substring(lastDotIndex) : "";
-        int firstUnderscoreIndex = input.indexOf("_");
-
-        if (firstUnderscoreIndex != -1) {
-            return input.substring(0, firstUnderscoreIndex) + extension;
-        }
-
-        return input;
-    }
-}</code></pre>
+     <li class="listing-item" data-url="liferay-java/replace-string.html">
+        <h2 class="item-title">Replace string from specific character dynamicallyM</h2>
+        <pre class="item-description"><code class="java"></code></pre>
         <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
-      </li>
-
-      <!-- NEW ITEM with dynamic fetch -->
-      <li class="listing-item" data-url="liferay-java/email.html">
-        <h2 class="item-title">Email Template Example (Fetched)</h2>
-        <pre class="item-description"><code class="html"></code></pre>
-        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
-        <button class="copy-btn" onclick="copyText(this)">Copy</button>
-      </li>
+      </li> 
     </ul>
   </div>
 </body>
