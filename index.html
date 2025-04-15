@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Responsive Grid Links with Tabs</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -207,9 +205,58 @@
   const tabs = ['liferay', 'java', 'javascript', 'tab4', 'tab5', 'tab6'];
   const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
 
+  // Example: You can customize this further
+  const gridData = {
+    liferay: [
+      ["Portal", "Portlet", "OSGi"],
+      ["Fragments", "Workflow"],
+      ["Themes", "Layouts"],
+      ["Web Content", "Structures"],
+      ["Service Builder", "APIs"]
+    ],
+    java: [
+      ["OOP", "Abstraction", "Encapsulation"],
+      ["Inheritance", "Polymorphism"],
+      ["Collections", "Streams"],
+      ["Multithreading", "Concurrency"],
+      ["JVM", "Garbage Collection"]
+    ],
+    javascript: [
+      ["ES6", "DOM", "AJAX"],
+      ["Events", "Callbacks", "Promises"],
+      ["Fetch API", "Async/Await"],
+      ["React", "Vue"],
+      ["Node.js", "NPM"]
+    ],
+    tab4: [
+      ["Alpha", "Beta", "Gamma"],
+      ["One", "Two"],
+      ["X", "Y", "Z"],
+      ["Apple", "Banana"],
+      ["Dog", "Cat"]
+    ],
+    tab5: [
+      ["HTML", "CSS", "JS"],
+      ["SASS", "LESS"],
+      ["Bootstrap", "Tailwind"],
+      ["Responsive", "Media Queries"],
+      ["Flexbox", "Grid"]
+    ],
+    tab6: [
+      ["Data", "Analytics"],
+      ["Graphs", "Charts"],
+      ["AI", "ML"],
+      ["Python", "R"],
+      ["SQL", "NoSQL"]
+    ]
+  };
+
+  // Generate the category panels dynamically
   tabs.forEach(tab => {
     categories.forEach((category, index) => {
-      const color = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      const items = (gridData[tab] && gridData[tab][index]) || ["Item 1", "Item 2"];
+      const color = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+
       const div = document.createElement('div');
       div.className = `category ${tab}`;
       div.innerHTML = `
@@ -217,16 +264,13 @@
           ${tab} - ${category}
         </div>
         <div id="${tab}-grid-${index}" class="grid-container">
-          <a href="#" class="grid-item">Java</a>
-          <a href="#" class="grid-item">Item 2</a>
-          <a href="#" class="grid-item">Item 3</a>
-          <a href="#" class="grid-item">Item 4</a>
-          <a href="#" class="grid-item">Item 5</a>
+          ${items.map(item => `<a href="#" class="grid-item">${item}</a>`).join('')}
         </div>
       `;
       document.getElementById('main-content').appendChild(div);
     });
   });
 </script>
+
 </body>
 </html>
