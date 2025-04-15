@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Liferay java snippet</title>
+  <title>Liferay Java Snippet</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
@@ -14,25 +14,25 @@
       background-color: #f8f9fa;
       color: #343a40;
     }
-    
+
     .container {
       max-width: 800px;
       margin: 50px auto;
       padding: 20px;
     }
-    
+
     h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #2c3e50;
     }
-    
+
     .listing {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    
+
     .listing-item {
       background-color: #fff;
       border: 1px solid #dee2e6;
@@ -42,18 +42,18 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       position: relative;
     }
-    
+
     .item-title a {
       font-size: 20px;
       color: #007bff;
       text-decoration: none;
       font-weight: bold;
     }
-    
+
     .item-title a:hover {
       text-decoration: underline;
     }
-    
+
     .item-description {
       font-size: 16px;
       line-height: 1.5;
@@ -66,7 +66,7 @@
       white-space: pre-wrap;
       display: none;
     }
-    
+
     .toggle-btn, .copy-btn {
       padding: 5px 10px;
       cursor: pointer;
@@ -75,16 +75,16 @@
       border: none;
       margin-top: 10px;
     }
-    
+
     .toggle-btn {
       background: #28a745;
       color: white;
     }
-    
+
     .toggle-btn:hover {
       background: #218838;
     }
-    
+
     .copy-btn {
       background: #007bff;
       color: white;
@@ -92,7 +92,7 @@
       top: 10px;
       right: 10px;
     }
-    
+
     .copy-btn:hover {
       background: #0056b3;
     }
@@ -104,14 +104,30 @@
         alert('Description copied to clipboard!');
       });
     }
-    
-    function toggleDescription(button) {
-      const description = button.parentElement.querySelector('.item-description');
-      if (description.style.display === 'none' || description.style.display === '') {
-        description.style.display = 'block';
+
+    async function loadAndToggleDescription(button) {
+      const item = button.closest('.listing-item');
+      const descriptionContainer = item.querySelector('.item-description');
+      const codeBlock = descriptionContainer.querySelector('code');
+
+      if (descriptionContainer.style.display === 'none' || descriptionContainer.style.display === '') {
+        // Load content if not already loaded
+        if (!codeBlock.dataset.loaded) {
+          const url = item.getAttribute('data-url');
+          try {
+            const response = await fetch(url);
+            const html = await response.text();
+            codeBlock.textContent = html;
+            codeBlock.dataset.loaded = "true";
+            hljs.highlightElement(codeBlock);
+          } catch (error) {
+            codeBlock.textContent = "Failed to load content.";
+          }
+        }
+        descriptionContainer.style.display = 'block';
         button.innerText = 'Hide Description';
       } else {
-        description.style.display = 'none';
+        descriptionContainer.style.display = 'none';
         button.innerText = 'Show Description';
       }
     }
@@ -119,53 +135,50 @@
 </head>
 <body>
   <div class="container">
-    <h1>Liferay java snippet</h1>
+    <h1>Liferay Java Snippet</h1>
     <ul class="listing">
       <li class="listing-item">
         <h2 class="item-title">check-loggedin-user-role</h2>
         <pre class="item-description"><code class="java">String superAdmin = "superadmin";
-List<Role> userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
-boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));</code></pre>
-        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+List&lt;Role&gt; userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
+boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -&gt; superAdmin.equals(userRL.getName()));</code></pre>
+        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
+
       <li class="listing-item">
         <h2 class="item-title">Replace string from specific character dynamically</h2>
         <pre class="item-description"><code class="plaintext">public class FileNameExtractor {
     public static void main(String[] args) {
-        String input = "test1_CAS00000281_2025-02-09132300027.pdf"; // Example input
+        String input = "test1_CAS00000281_2025-02-09132300027.pdf";
         System.out.println("Extracted File Name: " + extractFileName(input));
     }
 
     public static String extractFileName(String input) {
-        // Check if input is null or empty
         if (input == null || input.isEmpty()) {
             return "Invalid filename";
         }
 
-        // Find the last dot (.) to get the extension dynamically
         int lastDotIndex = input.lastIndexOf(".");
         String extension = (lastDotIndex != -1 && lastDotIndex > 0) ? input.substring(lastDotIndex) : "";
-
-        // Find the first underscore (_)
         int firstUnderscoreIndex = input.indexOf("_");
-        
-        // Extract everything before the first "_" and add back the extension
+
         if (firstUnderscoreIndex != -1) {
             return input.substring(0, firstUnderscoreIndex) + extension;
         }
 
-        // If no underscore is found, return the original filename
         return input;
     }
 }</code></pre>
-        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
-      <li class="listing-item">
-        <h2 class="item-title">Sunny Villa</h2>
-        <pre class="item-description"><code class="plaintext">This charming villa offers a blend of modern comforts with a touch of traditional design. A perfect getaway with lush surroundings and ample space for relaxation.</code></pre>
-        <button class="toggle-btn" onclick="toggleDescription(this)">Show Description</button>
+
+      <!-- NEW ITEM with dynamic fetch -->
+      <li class="listing-item" data-url="liferay-java/email.html">
+        <h2 class="item-title">Email Template Example (Fetched)</h2>
+        <pre class="item-description"><code class="html"></code></pre>
+        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
         <button class="copy-btn" onclick="copyText(this)">Copy</button>
       </li>
     </ul>
