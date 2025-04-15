@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grid with Login</title>
+  <title>Responsive Grid Links with Tabs</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -14,35 +18,34 @@
       align-items: center;
     }
 
-    #loginBox {
+    #login-container {
       margin-top: 100px;
       background: white;
-      padding: 30px;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    #loginBox input {
+    #main-content {
+      display: none;
+      width: 100%;
+    }
+
+    input[type="text"], input[type="password"] {
       padding: 10px;
       margin: 10px 0;
-      width: 200px;
+      width: 100%;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
 
-    #loginBox button {
+    button {
       padding: 10px 20px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-    }
-
-    #message {
-      color: red;
-      margin-top: 10px;
     }
 
     .tabs {
@@ -79,8 +82,8 @@
       background: white;
       border-radius: 10px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
-      padding: 10px;
+      margin: 20px auto;
+      padding: 0;
       display: none;
       border: 2px solid #007bff;
     }
@@ -90,14 +93,14 @@
     }
 
     .category-title {
-      color: black;
-      padding: 10px;
+      width: 100%;
+      padding: 15px;
       font-size: 18px;
       text-align: center;
-      border-radius: 5px;
       cursor: pointer;
-      margin-bottom: 15px;
-      border: 2px solid #155724;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+      border-bottom: 2px solid #155724;
     }
 
     .grid-container {
@@ -140,102 +143,90 @@
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       }
     }
-
-    #mainContent {
-      display: none;
-      width: 100%;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Login Form -->
-  <div id="loginBox">
-    <h2>Please Sign In</h2>
-    <input type="text" id="username" placeholder="Username" /><br/>
-    <input type="password" id="password" placeholder="Password" /><br/>
-    <button onclick="checkLogin()">Login</button>
-    <div id="message"></div>
+<div id="login-container">
+  <h2>Sign In</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="checkLogin()">Login</button>
+  <p id="error" style="color: red;"></p>
+</div>
+
+<div id="main-content">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('liferay')">Liferay</button>
+    <button class="tab" onclick="showTab('java')">Java</button>
+    <button class="tab" onclick="showTab('javascript')">Javascript</button>
+    <button class="tab" onclick="showTab('tab4')">Tab 4</button>
+    <button class="tab" onclick="showTab('tab5')">Tab 5</button>
+    <button class="tab" onclick="showTab('tab6')">Tab 6</button>
   </div>
+</div>
 
-  <!-- Main Content -->
-  <div id="mainContent">
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('liferay')">Liferay</button>
-      <button class="tab" onclick="showTab('java')">Java</button>
-      <button class="tab" onclick="showTab('javascript')">Javascript</button>
-      <button class="tab" onclick="showTab('tab4')">Tab 4</button>
-      <button class="tab" onclick="showTab('tab5')">Tab 5</button>
-      <button class="tab" onclick="showTab('tab6')">Tab 6</button>
-    </div>
-  </div>
+<script>
+  const validUser = 'admin';
+  const validPassBase64 = 'MTIzNA=='; // '1234' in Base64
 
-  <!-- JavaScript Logic -->
-  <script>
-    // Obfuscated credentials (admin / 1234)
-    const encodedUser = "YWRtaW4=";
-    const encodedPass = "MTIzNA==";
+  function checkLogin() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+    const encodedPass = btoa(pass);
 
-    function checkLogin() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      const decodedUser = atob(encodedUser);
-      const decodedPass = atob(encodedPass);
-
-      if (username === decodedUser && password === decodedPass) {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-      } else {
-        document.getElementById('message').textContent = 'Incorrect username or password!';
-      }
+    if (user === validUser && encodedPass === validPassBase64) {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    } else {
+      document.getElementById('error').textContent = 'Invalid username or password';
     }
+  }
 
-    function showTab(tabId) {
-      document.querySelectorAll('.category').forEach(category => {
-        category.classList.remove('active');
-      });
-      document.querySelectorAll(`.${tabId}`).forEach(category => {
-        category.classList.add('active');
-      });
-
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
-    }
-
-    function toggleCategory(gridId) {
-      const grid = document.getElementById(gridId);
-      if (grid) {
-        grid.classList.toggle('active');
-      }
-    }
-
-    // Add dynamic categories
-    const tabs = ['liferay', 'java', 'javascript', 'tab4', 'tab5', 'tab6'];
-    const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
-
-    tabs.forEach(tab => {
-      categories.forEach((category, index) => {
-        const bgColor = Math.floor(Math.random()*16777215).toString(16);
-        const div = document.createElement('div');
-        div.className = `category ${tab}`;
-        div.innerHTML = `
-          <div class="category-title" onclick="toggleCategory('${tab}-grid-${index}')" style="background: #${bgColor}">
-            ${tab} - ${category}
-          </div>
-          <div id="${tab}-grid-${index}" class="grid-container">
-            <a href="#" class="grid-item">Item 1</a>
-            <a href="#" class="grid-item">Item 2</a>
-            <a href="#" class="grid-item">Item 3</a>
-            <a href="#" class="grid-item">Item 4</a>
-            <a href="#" class="grid-item">Item 5</a>
-          </div>`;
-        document.getElementById('mainContent').appendChild(div);
-      });
+  function showTab(tabId) {
+    document.querySelectorAll('.category').forEach(category => {
+      category.classList.remove('active');
     });
-  </script>
+    document.querySelectorAll(`.${tabId}`).forEach(category => {
+      category.classList.add('active');
+    });
 
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+  }
+
+  function toggleCategory(gridId) {
+    const grid = document.getElementById(gridId);
+    if (grid) {
+      grid.classList.toggle('active');
+    }
+  }
+
+  const tabs = ['liferay', 'java', 'javascript', 'tab4', 'tab5', 'tab6'];
+  const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
+
+  tabs.forEach(tab => {
+    categories.forEach((category, index) => {
+      const color = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      const div = document.createElement('div');
+      div.className = `category ${tab}`;
+      div.innerHTML = `
+        <div class="category-title" onclick="toggleCategory('${tab}-grid-${index}')" style="background: #${color}">
+          ${tab} - ${category}
+        </div>
+        <div id="${tab}-grid-${index}" class="grid-container">
+          <a href="#" class="grid-item">Item 1</a>
+          <a href="#" class="grid-item">Item 2</a>
+          <a href="#" class="grid-item">Item 3</a>
+          <a href="#" class="grid-item">Item 4</a>
+          <a href="#" class="grid-item">Item 5</a>
+        </div>
+      `;
+      document.getElementById('main-content').appendChild(div);
+    });
+  });
+</script>
 </body>
 </html>
