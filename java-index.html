@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Liferay Java Snippet</title>
+  <title>Liferay Java Snippets</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
@@ -14,25 +14,21 @@
       background-color: #f8f9fa;
       color: #343a40;
     }
-
     .container {
       max-width: 800px;
       margin: 50px auto;
       padding: 20px;
     }
-
     h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #2c3e50;
     }
-
     .listing {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     .listing-item {
       background-color: #fff;
       border: 1px solid #dee2e6;
@@ -42,18 +38,12 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       position: relative;
     }
-
-    .item-title a {
+    .item-title {
       font-size: 20px;
       color: #007bff;
-      text-decoration: none;
       font-weight: bold;
+      margin: 0 0 10px;
     }
-
-    .item-title a:hover {
-      text-decoration: underline;
-    }
-
     .item-description {
       font-size: 16px;
       line-height: 1.5;
@@ -66,7 +56,6 @@
       white-space: pre-wrap;
       display: none;
     }
-
     .toggle-btn, .copy-btn {
       padding: 5px 10px;
       cursor: pointer;
@@ -75,16 +64,13 @@
       border: none;
       margin-top: 10px;
     }
-
     .toggle-btn {
       background: #28a745;
       color: white;
     }
-
     .toggle-btn:hover {
       background: #218838;
     }
-
     .copy-btn {
       background: #007bff;
       color: white;
@@ -92,12 +78,47 @@
       top: 10px;
       right: 10px;
     }
-
     .copy-btn:hover {
       background: #0056b3;
     }
   </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Liferay Java Snippets</h1>
+    <ul class="listing"></ul>
+  </div>
+
   <script>
+    async function loadJavaLinks() {
+      const response = await fetch('liferay-java/java-links.html');
+      const htmlText = await response.text();
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlText;
+
+      const items = tempDiv.querySelectorAll('li');
+      const container = document.querySelector('.listing');
+
+      items.forEach(li => {
+        const file = li.dataset.file;
+        const title = li.dataset.title || file;
+        const lang = li.dataset.lang || 'plaintext';
+        const url = `liferay-java/${file}`;
+
+        const listingItem = document.createElement('li');
+        listingItem.className = 'listing-item';
+        listingItem.setAttribute('data-url', url);
+        listingItem.setAttribute('data-lang', lang);
+        listingItem.innerHTML = `
+          <h2 class="item-title">${title}</h2>
+          <pre class="item-description"><code></code></pre>
+          <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        `;
+        container.appendChild(listingItem);
+      });
+    }
+
     function copyText(button) {
       const description = button.parentElement.querySelector('.item-description code');
       navigator.clipboard.writeText(description.innerText).then(() => {
@@ -106,57 +127,29 @@
     }
 
     async function loadAndToggleDescription(button) {
-      const item = button.closest('.listing-item');
-      const descriptionContainer = item.querySelector('.item-description');
-      const codeBlock = descriptionContainer.querySelector('code');
+      const container = button.parentElement;
+      const pre = container.querySelector('.item-description');
+      const codeBlock = pre.querySelector('code');
 
-      if (descriptionContainer.style.display === 'none' || descriptionContainer.style.display === '') {
-        // Load content if not already loaded
-        if (!codeBlock.dataset.loaded) {
-          const url = item.getAttribute('data-url');
-          try {
-            const response = await fetch(url);
-            const html = await response.text();
-            codeBlock.textContent = html;
-            codeBlock.dataset.loaded = "true";
-            hljs.highlightElement(codeBlock);
-          } catch (error) {
-            codeBlock.textContent = "Failed to load content.";
-          }
+      if (pre.style.display === 'none' || pre.style.display === '') {
+        const url = container.getAttribute('data-url');
+        const lang = container.getAttribute('data-lang');
+        if (!codeBlock.textContent.trim()) {
+          const response = await fetch(url);
+          const text = await response.text();
+          codeBlock.textContent = text;
+          codeBlock.className = lang;
+          hljs.highlightElement(codeBlock);
         }
-        descriptionContainer.style.display = 'block';
-        button.innerText = 'Hide Description';
+        pre.style.display = 'block';
+        button.textContent = 'Hide Description';
       } else {
-        descriptionContainer.style.display = 'none';
-        button.innerText = 'Show Description';
+        pre.style.display = 'none';
+        button.textContent = 'Show Description';
       }
     }
+
+    loadJavaLinks();
   </script>
-</head>
-<body>
-  <div class="container">
-    <h1>Liferay Java Snippet</h1>
-    <ul class="listing">
-       <!-- NEW ITEM with dynamic fetch -->
-      <li class="listing-item" data-url="liferay-java/check-logged-in-user.html">
-        <h2 class="item-title">check-loggedin-user-role</h2>
-        <pre class="item-description"><code class="java"></code></pre>
-        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
-        <button class="copy-btn" onclick="copyText(this)">Copy</button>
-      </li>
-     <li class="listing-item" data-url="liferay-java/replace-string.html">
-        <h2 class="item-title">Replace string from specific character dynamicallyM</h2>
-        <pre class="item-description"><code class="java"></code></pre>
-        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
-        <button class="copy-btn" onclick="copyText(this)">Copy</button>
-      </li> 
-      <li class="listing-item" data-url="liferay-java/create-list.html">
-        <h2 class="item-title">Create List</h2>
-        <pre class="item-description"><code class="java"></code></pre>
-        <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
-        <button class="copy-btn" onclick="copyText(this)">Copy</button>
-      </li> 
-    </ul>
-  </div>
 </body>
 </html>
