@@ -1,3 +1,3 @@
 String superAdmin = "superadmin";
-List&lt;Role&gt; userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
-boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -&gt; superAdmin.equals(userRL.getName()));
+List<Role> userRolesLists = RoleLocalServiceUtil.getUserRoles(userId);
+boolean isSuperAdmin = userRolesLists.stream().anyMatch(userRL -> superAdmin.equals(userRL.getName()));
