@@ -202,75 +202,68 @@
     }
   }
 
-  const tabs = ['liferay', 'java', 'javascript', 'tab4', 'tab5', 'tab6'];
-  const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
-
-  // Example: You can customize this further
   const gridData = {
     liferay: [
-      ["Portal", "Portlet", "OSGi"],
-      ["Fragments", "Workflow"],
-      ["Themes", "Layouts"],
-      ["Web Content", "Structures"],
-      ["Service Builder", "APIs"]
+      [
+        { name: "Portal", link: "/web/guest/portal" },
+        { name: "Portlet", link: "/web/guest/portlet" },
+        { name: "OSGi", link: "/web/guest/osgi" }
+      ],
+      [
+        { name: "Fragments", link: "/web/guest/fragments" },
+        { name: "Workflow", link: "/web/guest/workflow" }
+      ],
+      [
+        { name: "Themes", link: "/web/guest/themes" },
+        { name: "Layouts", link: "/web/guest/layouts" }
+      ],
+      [
+        { name: "Web Content", link: "/web/guest/web-content" },
+        { name: "Structures", link: "/web/guest/structures" }
+      ],
+      [
+        { name: "Service Builder", link: "/web/guest/service-builder" },
+        { name: "APIs", link: "/web/guest/apis" }
+      ]
     ],
     java: [
-      ["OOP", "Abstraction", "Encapsulation"],
-      ["Inheritance", "Polymorphism"],
-      ["Collections", "Streams"],
-      ["Multithreading", "Concurrency"],
-      ["JVM", "Garbage Collection"]
+      ["Core", "Collections", "Streams"],
+      ["Multithreading", "IO/NIO"],
+      ["Spring", "Hibernate"]
     ],
     javascript: [
-      ["ES6", "DOM", "AJAX"],
-      ["Events", "Callbacks", "Promises"],
-      ["Fetch API", "Async/Await"],
-      ["React", "Vue"],
-      ["Node.js", "NPM"]
+      ["DOM", "Events"],
+      ["Fetch API", "Promises"],
+      ["ES6", "React"]
     ],
-    tab4: [
-      ["Alpha", "Beta", "Gamma"],
-      ["One", "Two"],
-      ["X", "Y", "Z"],
-      ["Apple", "Banana"],
-      ["Dog", "Cat"]
-    ],
-    tab5: [
-      ["HTML", "CSS", "JS"],
-      ["SASS", "LESS"],
-      ["Bootstrap", "Tailwind"],
-      ["Responsive", "Media Queries"],
-      ["Flexbox", "Grid"]
-    ],
-    tab6: [
-      ["Data", "Analytics"],
-      ["Graphs", "Charts"],
-      ["AI", "ML"],
-      ["Python", "R"],
-      ["SQL", "NoSQL"]
-    ]
+    tab4: [["Item A", "Item B"]],
+    tab5: [["Item X", "Item Y"]],
+    tab6: [["Item M", "Item N"]]
   };
 
-  // Generate the category panels dynamically
-  tabs.forEach(tab => {
-    categories.forEach((category, index) => {
-      const items = (gridData[tab] && gridData[tab][index]) || ["Item 1", "Item 2"];
-      const color = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+  const tabs = Object.keys(gridData);
+  const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
 
+  tabs.forEach(tab => {
+    gridData[tab].forEach((items, index) => {
+      const color = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
       const div = document.createElement('div');
       div.className = `category ${tab}`;
       div.innerHTML = `
         <div class="category-title" onclick="toggleCategory('${tab}-grid-${index}')" style="background: #${color}">
-          ${tab} - ${category}
+          ${tab} - ${categories[index] || 'Category'}
         </div>
         <div id="${tab}-grid-${index}" class="grid-container">
-          ${items.map(item => `<a href="#" class="grid-item">${item}</a>`).join('')}
+          ${items.map(item =>
+            typeof item === 'object'
+              ? `<a href="${item.link}" class="grid-item" target="_blank">${item.name}</a>`
+              : `<a href="#" class="grid-item">${item}</a>`
+          ).join('')}
         </div>
       `;
       document.getElementById('main-content').appendChild(div);
     });
   });
 </script>
-
 </body>
 </html>
