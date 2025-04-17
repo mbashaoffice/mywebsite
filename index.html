@@ -156,7 +156,7 @@
 <div id="main-content">
   <div class="tabs">
     <button class="tab active" onclick="showTab('liferay')">Liferay</button>
-    <button class="tab" onclick="showTab('java')">Java</button>
+    <button class="tab" onclick="showTab('springjava')">Spring Java</button>
     <button class="tab" onclick="showTab('javascript')">Javascript</button>
     <button class="tab" onclick="showTab('tab4')">Tab 4</button>
     <button class="tab" onclick="showTab('tab5')">Tab 5</button>
@@ -205,9 +205,8 @@
   const gridData = {
     liferay: [
       [
-        { name: "Portal", link: "/web/guest/portal" },
-        { name: "Portlet", link: "/mywebsite/java-index.html" },
-        { name: "OSGi", link: "/web/guest/osgi" }
+        
+        { name: "Portlet", link: "/mywebsite/java-index.html" }
       ],
       [
         { name: "Fragments", link: "/web/guest/fragments" },
@@ -226,10 +225,10 @@
         { name: "APIs", link: "/web/guest/apis" }
       ]
     ],
-    java: [
-      ["Core", "Collections", "Streams"],
-      ["Multithreading", "IO/NIO"],
-      ["Spring", "Hibernate"]
+    springjava: [
+      [
+        { name: "Spring-Java", link: "/mywebsite/spring-java-index.html" }
+      ]
     ],
     javascript: [
       ["DOM", "Events"],

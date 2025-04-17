@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Liferay Java Snippets</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    .listing {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .listing-item {
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .item-title {
+      font-size: 20px;
+      color: #007bff;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+    .item-description {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-top: 8px;
+      background-color: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+      display: none;
+    }
+    .toggle-btn, .copy-btn {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      border: none;
+      margin-top: 10px;
+    }
+    .toggle-btn {
+      background: #28a745;
+      color: white;
+    }
+    .toggle-btn:hover {
+      background: #218838;
+    }
+    .copy-btn {
+      background: #007bff;
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .copy-btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Liferay Java Snippets</h1>
+    <ul class="listing"></ul>
+  </div>
+
+  <script>
+    async function loadJavaLinks() {
+      const response = await fetch('spring-java/a-links.html');
+      const htmlText = await response.text();
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlText;
+
+      const items = tempDiv.querySelectorAll('li');
+      const container = document.querySelector('.listing');
+
+      items.forEach(li => {
+        const file = li.dataset.file;
+        const title = li.dataset.title || file;
+        const lang = li.dataset.lang || 'plaintext';
+        const url = `liferay-java/${file}`;
+
+        const listingItem = document.createElement('li');
+        listingItem.className = 'listing-item';
+        listingItem.setAttribute('data-url', url);
+        listingItem.setAttribute('data-lang', lang);
+        listingItem.innerHTML = `
+          <h2 class="item-title">${title}</h2>
+          <pre class="item-description"><code></code></pre>
+          <button class="toggle-btn" onclick="loadAndToggleDescription(this)">Show Description</button>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        `;
+        container.appendChild(listingItem);
+      });
+    }
+
+    function copyText(button) {
+      const description = button.parentElement.querySelector('.item-description code');
+      navigator.clipboard.writeText(description.innerText).then(() => {
+        alert('Description copied to clipboard!');
+      });
+    }
+
+    async function loadAndToggleDescription(button) {
+      const container = button.parentElement;
+      const pre = container.querySelector('.item-description');
+      const codeBlock = pre.querySelector('code');
+
+      if (pre.style.display === 'none' || pre.style.display === '') {
+        const url = container.getAttribute('data-url');
+        const lang = container.getAttribute('data-lang');
+        if (!codeBlock.textContent.trim()) {
+          const response = await fetch(url);
+          const text = await response.text();
+          codeBlock.textContent = text;
+          codeBlock.className = lang;
+          hljs.highlightElement(codeBlock);
+        }
+        pre.style.display = 'block';
+        button.textContent = 'Hide Description';
+      } else {
+        pre.style.display = 'none';
+        button.textContent = 'Show Description';
+      }
+    }
+
+    loadJavaLinks();
+  </script>
+</body>
+</html>
