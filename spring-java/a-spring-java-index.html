@@ -91,7 +91,7 @@
 
   <script>
     async function loadJavaLinks() {
-      const response = await fetch('spring-java/a-links.html');
+      const response = await fetch('a-links.html');
       const htmlText = await response.text();
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = htmlText;
@@ -103,7 +103,7 @@
         const file = li.dataset.file;
         const title = li.dataset.title || file;
         const lang = li.dataset.lang || 'plaintext';
-        const url = `spring-java/${file}`;
+        const url = `${file}`;
 
         const listingItem = document.createElement('li');
         listingItem.className = 'listing-item';
