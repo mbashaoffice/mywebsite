@@ -103,7 +103,7 @@
         const file = li.dataset.file;
         const title = li.dataset.title || file;
         const lang = li.dataset.lang || 'plaintext';
-        const url = `liferay-java/${file}`;
+        const url = `${file}`;
 
         const listingItem = document.createElement('li');
         listingItem.className = 'listing-item';
