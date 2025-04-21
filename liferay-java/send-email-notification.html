@@ -1,0 +1,103 @@
+emailNotificationUtil.sendEmailNotification(senderEmailId, receiverEmailId, emailSubject, emailBody);
+
+
+
+
+package com.ews.global.util;
+
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.mail.kernel.model.MailMessage;
+import com.liferay.mail.kernel.service.MailServiceUtil;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.xml.Document;
+import com.liferay.portal.kernel.xml.Node;
+import com.liferay.portal.kernel.xml.SAXReaderUtil;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.mail.internet.InternetAddress;
+
+
+public class EWSEmailNotificationUtil {
+	public void sendEmailNotification(String senderEmail, String recieverEmail, String subject, String body) {
+		try {
+			MailMessage mailMessage = new MailMessage();
+			mailMessage.setFrom(new InternetAddress(senderEmail));
+			mailMessage.setTo(new InternetAddress(recieverEmail));
+			mailMessage.setSubject(subject);
+			mailMessage.setBody(body);
+			mailMessage.setHTMLFormat(true);
+			MailServiceUtil.sendEmail(mailMessage);
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+		}
+	}
+	
+	public String replaceEmailTemplate(String emailTemplate, Map<String, String> keyValueMap) {
+		for (Entry<String, String> entry : keyValueMap.entrySet()) {
+			emailTemplate = StringUtil.replace(emailTemplate, "[$" + entry.getKey() + "$]", entry.getValue());
+		}
+		return emailTemplate;
+	}
+	
+	public String getEmailSubjectFromArticle(long groupId, String languageId, String articleName) {
+		String emailSubject = StringPool.BLANK;
+		try {
+			JournalArticle article = JournalArticleLocalServiceUtil.getArticleByUrlTitle(groupId, articleName);
+			if (Validator.isNotNull(article)) {
+				String content = article.getContentByLocale(languageId);
+				emailSubject = readXMLData(content, "emailSubject");
+				_log.debug("Email Subject:::::::::::::" + emailSubject);
+			}
+		} catch (PortalException e) {
+			_log.error("Exception Occurred  >>>> While Fetching Article:::::::::::::" + e);
+		}
+
+		return emailSubject;
+	}
+
+	public String getEmailBodyFromArticle(long groupId, String languageId, String articleName) {
+		String emailBody = StringPool.BLANK;
+		try {
+			JournalArticle article = JournalArticleLocalServiceUtil.getArticleByUrlTitle(groupId, articleName);
+			if (Validator.isNotNull(article)) {
+				String content = article.getContentByLocale(languageId);
+				emailBody = readXMLData(content, "emailBody");
+				_log.debug("Email Body:::::::::::::" + emailBody);
+			}
+		} catch (PortalException e) {
+			_log.error("Exception Occurred  >>>> While Fetching Article:::::::::::::" + e);
+		}
+
+		return emailBody;
+	}
+	
+	public String readXMLData(String content, String Key) {
+
+		String fieldValue = StringPool.BLANK;
+		try {
+
+			Document document = SAXReaderUtil.read(content);
+
+			Node node = document
+					.selectSingleNode("/root/dynamic-element[@field-reference='" + Key + "']/dynamic-content");
+
+			if (Validator.isNotNull(node)) {
+				return fieldValue = node.getText();
+			}
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+		}
+		return fieldValue;
+
+	}
+	
+	private static final Log _log = LogFactoryUtil.getLog(EWSEmailNotificationUtil.class);
+}
