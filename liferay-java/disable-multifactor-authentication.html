@@ -1,0 +1,11 @@
+There are two ways to enable or disable the multi-factor authentication:
+Through the portal, in the following route: Control Panel > System Settings > Multi-Factor Authentication. There is a checkbox to do it.
+You can put inside the folder of your project osgi > configs a document with name com.liferay.multi.factor.authentication.web.internal.system.configuration.MFASystemConfiguration.config and the following property in it:
+disableGlobally=B"false" (to enable MFA), or
+disableGlobally=B"true" (to disable MFA)
+
+create file name as below>>
+com.liferay.multi.factor.authentication.web.internal.system.configuration.MFASystemConfiguration.config
+
+put inside the file>>
+disableGlobally=B"true"
