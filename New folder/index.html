@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Grid Links with Tabs</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #login-container {
+      margin-top: 100px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #main-content {
+      display: none;
+      width: 100%;
+    }
+
+    input[type="text"], input[type="password"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .tab {
+      color: black;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      border: none;
+    }
+
+    .tab.active {
+      font-weight: bold;
+    }
+
+    .tab:nth-child(1) { background: #007bff; }
+    .tab:nth-child(2) { background: #ff5733; }
+    .tab:nth-child(3) { background: #33c3ff; }
+    .tab:nth-child(4) { background: #ff33a8; }
+    .tab:nth-child(5) { background: #33ff57; }
+    .tab:nth-child(6) { background: #ffc733; }
+
+    .category {
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      padding: 0;
+      display: none;
+      border: 2px solid #007bff;
+    }
+
+    .category.active {
+      display: block;
+    }
+
+    .category-title {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+      border-bottom: 2px solid #155724;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      padding: 10px;
+      display: none;
+    }
+
+    .grid-container.active {
+      display: grid;
+    }
+
+    .grid-item {
+      background: white;
+      color: black;
+      text-align: center;
+      padding: 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      min-height: 50px;
+    }
+
+    .grid-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 600px) {
+      .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="login-container">
+  <h2>Sign In</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="checkLogin()">Login</button>
+  <p id="error" style="color: red;"></p>
+</div>
+
+<div id="main-content">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('liferay')">Liferay</button>
+    <button class="tab" onclick="showTab('springjava')">Spring Java</button>
+    <button class="tab" onclick="showTab('javascript')">Javascript</button>
+    <button class="tab" onclick="showTab('tab4')">Tab 4</button>
+    <button class="tab" onclick="showTab('tab5')">Tab 5</button>
+    <button class="tab" onclick="showTab('tab6')">Tab 6</button>
+  </div>
+</div>
+
+<script>
+  const validUser = 'admin';
+  const validPassBase64 = 'MTIzNA=='; // '1234' in Base64
+
+  function checkLogin() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+    const encodedPass = btoa(pass);
+
+    if (user === validUser && encodedPass === validPassBase64) {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    } else {
+      document.getElementById('error').textContent = 'Invalid username or password';
+    }
+  }
+
+  function showTab(tabId) {
+    document.querySelectorAll('.category').forEach(category => {
+      category.classList.remove('active');
+    });
+    document.querySelectorAll(`.${tabId}`).forEach(category => {
+      category.classList.add('active');
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+  }
+
+  function toggleCategory(gridId) {
+    const grid = document.getElementById(gridId);
+    if (grid) {
+      grid.classList.toggle('active');
+    }
+  }
+
+  const gridData = {
+    liferay: [
+      [
+        
+        { name: "Portlet", link: "/mywebsite/liferay-java/a-liferay-java-index.html" }
+      ],
+      [
+        { name: "Fragments", link: "/web/guest/fragments" },
+        { name: "Workflow", link: "/web/guest/workflow" }
+      ],
+      [
+        { name: "Themes", link: "/web/guest/themes" },
+        { name: "Layouts", link: "/web/guest/layouts" }
+      ],
+      [
+        { name: "Web Content", link: "/web/guest/web-content" },
+        { name: "Structures", link: "/web/guest/structures" }
+      ],
+      [
+        { name: "Service Builder", link: "/web/guest/service-builder" },
+        { name: "APIs", link: "/web/guest/apis" }
+      ]
+    ],
+    springjava: [
+      [
+        { name: "Spring-Java", link: "/mywebsite/spring-java/a-spring-java-index.html" }
+      ]
+    ],
+    javascript: [
+      ["DOM", "Events"],
+      ["Fetch API", "Promises"],
+      ["ES6", "React"]
+    ],
+    tab4: [["Item A", "Item B"]],
+    tab5: [["Item X", "Item Y"]],
+    tab6: [["Item M", "Item N"]]
+  };
+
+  const tabs = Object.keys(gridData);
+  const categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
+
+  tabs.forEach(tab => {
+    gridData[tab].forEach((items, index) => {
+      const color = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      const div = document.createElement('div');
+      div.className = `category ${tab}`;
+      div.innerHTML = `
+        <div class="category-title" onclick="toggleCategory('${tab}-grid-${index}')" style="background: #${color}">
+          ${tab} - ${categories[index] || 'Category'}
+        </div>
+        <div id="${tab}-grid-${index}" class="grid-container">
+          ${items.map(item =>
+            typeof item === 'object'
+              ? `<a href="${item.link}" class="grid-item" target="_blank">${item.name}</a>`
+              : `<a href="#" class="grid-item">${item}</a>`
+          ).join('')}
+        </div>
+      `;
+      document.getElementById('main-content').appendChild(div);
+    });
+  });
+</script>
+</body>
+</html>
